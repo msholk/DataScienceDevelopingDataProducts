@@ -1,0 +1,68 @@
+---
+title: "R Markdown and Leaflet Presentation"
+author: "M.Welt"
+date: "27 Feb 2025"
+output: 
+  revealjs::revealjs_presentation:
+    incremental: true  # Add items to slides incrementally
+    transition: slide  # Slide transition style
+    theme: solarized   # Presentation theme (other options: default, simple, sky, beige, serif, solarized, blood, moon, night, black, league, white)
+always_allow_html: yes
+---
+
+## Developing Data Products
+**Module 4**
+**R Markdown and Leaflet presentation**
+
+
+```{r, echo=FALSE, message=FALSE,warning=FALSE}
+# Load necessary libraries
+library(plotly)
+
+# Create a 3D scatter plot for mpg, hp, and wt with coloring by number of cylinders (cyl)
+plot_ly(mtcars, x = ~mpg, y = ~hp, z = ~wt, color = ~factor(cyl), type = "scatter3d", mode = "markers") %>%
+  layout(title = "3D Scatter Plot of mtcars Data Colored by Cylinders",
+         scene = list(xaxis = list(title = "Miles per Gallon (mpg)"),
+                      yaxis = list(title = "Horsepower (hp)"),
+                      zaxis = list(title = "Weight (wt)")),
+         coloraxis = list(colorbar = list(title = "Number of Cylinders")),
+          width = 800,  # Set the width of the plot
+          height = 500  # Set the height of the plot
+         )
+
+```
+
+## Correlation
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+# Calculate the correlation matrix of mtcars
+cor_matrix <- cor(mtcars)
+
+# Get the upper triangle of the correlation matrix
+cor_matrix[lower.tri(cor_matrix)] <- NA
+
+# Create a heatmap using plotly for the upper triangle
+plot_ly(
+  x = colnames(cor_matrix),
+  y = rownames(cor_matrix),
+  z = cor_matrix,
+  type = "heatmap",
+  colors = colorRamp(c("blue", "white", "red")),
+  showscale = TRUE
+) %>%
+  layout(
+    title = "Interactive Correlation Heatmap (Upper Triangle) of mtcars Data",
+    xaxis = list(title = "Variables"),
+    yaxis = list(title = "Variables"),
+    colorbar = list(title = "Correlation Coefficient")
+  )
+
+
+
+
+```
+
+
+
