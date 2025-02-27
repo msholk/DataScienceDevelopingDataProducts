@@ -1,0 +1,47 @@
+---
+title: "Leaflet"
+author: "M.Welt"
+date: "27 Feb 2025"
+always_allow_html: yes
+---
+
+## Developing Data Products
+### Module 3
+#### R Markdown and Leaflet
+
+Famous Landmarks and Natural Wonders of Spain
+
+
+
+```{r, echo=FALSE}
+# Load the leaflet library
+library(leaflet)
+library(leaflet.extras)
+
+
+spain_sites <- data.frame(
+  lat = c(41.4036, 37.1765, 41.4145, 40.4154, 38.9784, 38.2012, 40.4115, 40.7167, 38.9592, 39.9987,
+          43.2637, 37.3850, 41.3832, 40.3975, 38.9975, 37.2647, 39.8608, 37.7116, 38.6703, 40.4168),
+  lng = c(2.1744, -3.5881, 2.1527, -3.7036, -0.1602, -0.1051, -3.7132, -3.7037, -0.6517, -0.4066,
+          -4.1426, -6.0059, -2.0204, -3.7109, -6.0550, -6.1731, -6.8713, -0.6611, -0.7651, -3.7038),
+  site_name = c("La Sagrada Familia (Barcelona)", "Alhambra (Granada)", "Park Güell (Barcelona)", 
+                "Plaza Mayor (Madrid)", "Ibiza (Balearic Islands)", "Acueducto de Segovia (Segovia)", 
+                "Catedral de Sevilla (Seville)", "Picos de Europa National Park (Asturias)", 
+                "Montserrat Mountain (Catalonia)", "La Rambla (Barcelona)", "Cueva de Altamira (Cantabria)", 
+                "Costa Brava (Catalonia)", "Playa de la Concha (San Sebastián)", "Palacio Real (Madrid)", 
+                "La Rioja (Wine Region)", "Teide National Park (Tenerife)", "Santiago de Compostela (Galicia)", 
+                "Meseta Central (Central Plateau)", "Cabo de Gata (Almería)", "Ciudad de las Artes y las Ciencias (Valencia)")
+)
+
+# Create the leaflet map with markers and popups
+my_map <- spain_sites %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(~lng, ~lat, popup = ~site_name, clusterOptions = markerClusterOptions(),options = markerOptions(draggable = TRUE))
+
+
+# Show the map
+my_map
+
+```
+
