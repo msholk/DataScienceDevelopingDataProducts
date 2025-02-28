@@ -51,12 +51,16 @@ server <- function(input, output) {
     
     # Display model summary and selected values in the output
     output$prediction_output <- renderText({
+      lm_model <- lm(mpg ~ hp + wt + cyl, data = mtcars)
+      predicted_mpg <- predict(lm_model, newdata = data.frame(hp = input$hp, wt = input$wt, cyl = input$cyl))
+      
       # Create the output string with selected values and model summary
       text_output <- paste("Selected Predictor Values:\n",
                            "Horsepower (hp):", input$hp, "\n",
                            "Weight (wt):", input$wt, "\n",
-                           "Number of Cylinders (cyl):", input$cyl, "\n\n"
-                           )
+                           "Number of Cylinders (cyl):", input$cyl, "\n\n",
+                           "Predicted MPG:", round(predicted_mpg,1), "\n\n"
+      )
       
      
       
