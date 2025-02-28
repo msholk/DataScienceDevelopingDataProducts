@@ -1,3 +1,4 @@
+
 ---
 title: "Predicting MPG with Linear Regression"
 author: "M.Welt"
@@ -8,6 +9,12 @@ output:
     incremental: true  # Items will appear incrementally
     transition: slide  # Slide transition style
 always_allow_html: yes
+---
+
+# Predicting MPG with Linear Regression
+
+Welcome to the presentation on predicting miles per gallon (MPG) using linear regression.
+
 ---
 
 ## Introduction
@@ -26,17 +33,36 @@ always_allow_html: yes
 - Sidebar with sliders to adjust horsepower, weight, and cylinders.
 - Action button to trigger prediction update.
 
+---
+
 ### Server Logic:
 - Linear regression model used to predict MPG.
 - Reactively updates data and visualizations based on user inputs.
 
+---
+
+## Example Model Output
+
 ```{r}
 # Embedded R code to showcase the linear regression model
 library(shiny)
+library(ggplot2)
+
+# Sample linear regression model
 data(mtcars)
+model <- lm(mpg ~ hp + wt + cyl, data = mtcars)
 
-# Linear model
-lm_model <- lm(mpg ~ hp + wt + cyl, data = mtcars)
-summary(lm_model)
+# Sample prediction code
+predict_mpg <- function(hp, wt, cyl) {
+  predict(model, newdata = data.frame(hp = hp, wt = wt, cyl = cyl))
+}
 
+# Example prediction output
+predict_mpg(150, 2.5, 6)
 ```
+
+---
+
+## Conclusion
+
+This tool enables users to predict MPG based on car characteristics. The application dynamically updates based on input values and offers an interactive interface to explore relationships between variables.
