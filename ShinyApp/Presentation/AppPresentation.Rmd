@@ -6,8 +6,7 @@ date: "28 Feb 2025"
 output:
   revealjs::revealjs_presentation:
     theme: solarized   # Presentation theme (changeable)
-    incremental: true  # Items will appear incrementally
-    transition: slide  # Slide transition style
+    transition: convex
 always_allow_html: yes
 ---
 
@@ -32,8 +31,6 @@ Welcome to the presentation on predicting miles per gallon (MPG) using linear re
 ### UI Overview:
 - Sidebar with sliders to adjust horsepower, weight, and cylinders.
 - Action button to trigger prediction update.
-
----
 
 ### Server Logic:
 - Linear regression model used to predict MPG.
