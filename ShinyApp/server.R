@@ -22,20 +22,30 @@ server <- function(input, output) {
     # Predict mpg based on the selected predictors
     predictions <- predict(lm_model, selected_data())
     
-    # Create the scatter plot with the actual data and predictions
+    # 3D Scatter Plot of mtcars data with prediction ball
     output$scatter_plot <- renderPlotly({
-      plot_ly(selected_data(), 
-              x = ~mpg, 
-              y = predictions, 
-              type = "scatter", 
-              mode = "markers") %>%
-        layout(title = "Actual vs Predicted mpg (Using hp, wt, and cyl as predictors)",
-               xaxis = list(title = "Actual mpg"),
-               yaxis = list(title = "Predicted mpg"),
+      # Create the linear model based on user-selected inputs
+      lm_model <- lm(mpg ~ hp + wt + cyl, data = mtcars)
+      predicted_mpg <- predict(lm_model, newdata = data.frame(hp = input$hp, wt = input$wt, cyl = input$cyl))
+      
+      # Plot the 3D scatter plot
+      plot_ly(mtcars, x = ~mpg, y = ~hp, z = ~wt, color = ~factor(cyl), 
+              type = "scatter3d", mode = "markers") %>%
+        add_trace(
+          x = predicted_mpg, y = input$hp, z = input$wt, 
+          type = "scatter3d", mode = "markers", 
+          marker = list(color = 'red', size = 10, symbol = 'circle')
+        ) %>%
+        layout(title = "3D Scatter Plot of mtcars Data Colored by Cylinders",
+               scene = list(xaxis = list(title = "Miles per Gallon (mpg)"),
+                            yaxis = list(title = "Horsepower (hp)"),
+                            zaxis = list(title = "Weight (wt)")),
+               coloraxis = list(colorbar = list(title = "Number of Cylinders")),
                width = 800,  # Set the width of the plot
                height = 500  # Set the height of the plot
         )
     })
+    
 
     
     
@@ -45,8 +55,8 @@ server <- function(input, output) {
       text_output <- paste("Selected Predictor Values:\n",
                            "Horsepower (hp):", input$hp, "\n",
                            "Weight (wt):", input$wt, "\n",
-                           "Number of Cylinders (cyl):", input$cyl, "\n\n",
-                           "Linear Model Summary:\n")
+                           "Number of Cylinders (cyl):", input$cyl, "\n\n"
+                           )
       
      
       
